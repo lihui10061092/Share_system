@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" > 
+<mapper namespace="com.lihui.share.dao.IShareDao">
+	<!-- 定义的resultMap，可以解决类的属性名和数据库列名不一致的问题
+	<result property="userId" column="u_id" jdbcType="INTEGER" javaType="int"/>
+	-->
+	<resultMap type="com.lihui.share.entity.Share" id="shareResultMap">
+        <id property="shareId" column="s_id" jdbcType="INTEGER" javaType="int"/>
+        <result property="type" column="type" jdbcType="VARCHAR" javaType="String"/>
+        <result property="subject" column="subject" jdbcType="VARCHAR" javaType="String"/>
+        <result property="content" column="content" jdbcType="VARCHAR" javaType="String"/>
+        
+        <result property="shareDate" column="s_time" jdbcType="DATE" javaType="Date"/>
+        <result property="attachements" column="attachments" jdbcType="VARCHAR" javaType="String"/>
+        <result property="grade" column="grade" jdbcType="DOUBLE" javaType="double"/>
+        <result property="studentNum" column="stu_num" jdbcType="INTEGER" javaType="int"/>
+        <result property="grade_num" column="grade_num" jdbcType="INTEGER" javaType="int"/>
+        <result property="adGrade" column="ad_grade" jdbcType="INTEGER" javaType="int"/>
+        <association column="u_id" property="auther" javaType="com.lihui.share.entity.User">
+			<id column="user_id" property="user_id"/>
+			<result column="loginame" property="loginame"/>
+			<result column="name" property="name"/>
+			<result column="sex" property="sex"/>
+			<result column="emp_id" property="emp_id"/>
+			<result column="pwd" property="pwd"/>
+			<result column="email" property="email"/>
+			<result column="tel" property="tel"/>
+			<result column="addr" property="addr"/>
+			<result column="company" property="company"/>
+			<result column="dept" property="dept"/>
+			<result column="project" property="project"/>
+			<result column="position" property="position"/>
+			<result column="level" property="level"/>
+			<result column="hiredate" property="hiredate"/>
+		</association>        
+    </resultMap> 
+	<select id="findAllShare" resultMap="shareResultMap">
+		select s.s_id,s.type,s.subject,s.content,s.s_time,s.attachments,s.grade,s.stu_num,s.grade_num,
+		s.ad_grade,u.user_id from t_share s, t_user u where s.u_id=u.user_id
+	</select>
+	<select id="findShareByPage" resultMap="shareResultMap">
+		select s_id,type,subject,content,u_id,s_time,attachments,grade,stu_num,grade_num,ad_grade from t_share
+		order by s_id DESC limit #{start},#{end}
+	</select>
+	
+	<select id="findOthersShareByPage" resultMap="shareResultMap">
+		select s.s_id,s.type,s.subject,s.content,s.s_time,s.attachments,s.grade,s.stu_num,s.grade_num,s.ad_grade,u.*
+		 from 
+		t_share s, t_user u 
+		where s.u_id=u.user_id and s.u_id != #{userId} order by s_id DESC limit #{start},#{end}
+	</select>
+	<select id="findMyShareByPage" resultMap="shareResultMap">
+		select s.s_id,s.type,s.subject,s.content,s.s_time,s.attachments,s.grade,s.stu_num,s.grade_num,s.ad_grade from 
+		t_share s, t_user u 
+		where s.u_id=u.user_id and u_id = #{userId} order by s_id DESC limit #{start},#{end}
+	</select>
+	<select id="findShareById" resultMap="shareResultMap">
+		select * from t_share where s_id = #{0}
+	</select>
+	
+	<select id="getAllShareCounts" resultType="Integer">
+		select count(*) from t_share
+	</select>
+	
+	<select id="getMyShareCounts" resultType="Integer">
+		select count(*) from t_share where u_id = #{userId}
+	</select>
+	
+	<select id="getOthersShareCounts" resultType="Integer">
+		select count(*) from t_share where u_id != #{userId}
+	</select>
+	
+	<update id="updateShare">
+		update t_share set type=#{type,jdbcType=VARCHAR},subject=#{subject,jdbcType=VARCHAR},content=#{content,jdbcType=VARCHAR},
+		       u_id=#{u_id,jdbcType=INTEGER},
+               s_time=#{s_time,jdbcType=DATE},attachments=#{attachments,jdbcType=VARCHAR},grade=#{grade,jdbcType=DOUBLE},
+               stu_num=#{stu_num,jdbcType=INTEGER},grade_num=#{grade_num,jdbcType=INTEGER},ad_grade=#{ad_grade,jdbcType=INTEGER}
+               where s_id=#{s_id,jdbcType=INTEGER}
+	</update>
+	<!--更新各个字段  ad_grade,jdbcType=INTEGER  S_id,jdbcType=INTEGER-->
+	<update id="updateShare_gradeNum">
+		update t_share set grade_num=#{grade_num} where s_id=#{s_id}
+	</update>
+	
+	<update id="updateShare_grade">
+		update t_share set grade=#{grade} where s_id=#{s_id}
+	</update>
+	
+	<update id="updateAdminGrade">
+		update t_share set ad_grade=#{ad_grade} where s_id=#{s_id}
+	</update>
+	 
+	<insert id="insertShare" parameterType="com.lihui.share.entity.Share"> 
+        insert into t_share(type,subject,content,u_id,s_time,attachments,grade,stu_num,grade_num,ad_grade) 
+               values(#{type,jdbcType=VARCHAR},#{subject,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{u_id,jdbcType=INTEGER},
+               #{s_time,jdbcType=DATE},#{attachments,jdbcType=VARCHAR},#{grade,jdbcType=DOUBLE},
+               #{stu_num,jdbcType=INTEGER},#{grade_num,jdbcType=INTEGER},#{ad_grade,jdbcType=INTEGER})  
+    </insert>
+    
+    <delete id="deleteShareById" parameterType="Integer">
+    	delete from t_share where s_id=#{s_id}
+    </delete>
+</mapper>

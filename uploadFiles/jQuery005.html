@@ -1,0 +1,37 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<style>
+	.democss{
+	color:green;
+	front-size:50px;
+	}
+</style>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>oEachElement</title>
+<script type="text/javascript" language="javascript" src="./jQuery/jquery-2.2.3.min.js" ></script>
+<script type="text/javascript">
+	var item = document.getElementById("tb");
+	var tbody = item.getElementByTagName("tbody")[0];
+	var trs = tbody.getElementByTagName("tr");
+	for(var i=0; i<trs.length; i++){
+		if(i%2==0){
+			trs[i].style.backgroundColor="#888";
+		}
+	}
+</script>
+</head>
+<body>
+<table id="mytb" border="1">
+<tbody>
+	<tr><td>第一行</td><td>第一行</td></tr>
+	<tr><td>第二行</td><td>第二行</td></tr>
+	<tr><td>第三行</td><td>第三行</td></tr>
+	<tr><td>第四行</td><td>第四行</td></tr>
+	<tr><td>第五行</td><td>第五行</td></tr>
+</tbody>
+</table>
+</body>
+</html>

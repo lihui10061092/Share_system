@@ -1,0 +1,162 @@
+1.作为核心Java后端开发，对企业在线协作办公平台进行实施和开发，基于Atlassian公司的原生系统Confluence进行插件开发，实现业务需求。
+2.参与PMS产品管理平台的后台功能开发，在ptc公司的windchill系统基础上进行开发，开发模式是敏捷开发，所开发的东西主要针对于产品生命周期的管理的系统，系统涉及到产品与版本间的link维护，流程的开发，邮件功能的开发。工作效率高，所做功能稳定，获得sm以及pm的表扬。开发主要使用技术为java，Sring MVC框架。使用的数据库为oracle。
+
+本科计算机专业，3年工作经验，作为Java后端开发参与多个HW外包项目的成功开发与实施。具备扎实的Java编程功底，熟练应用常见的Java开发框架和技术如SSH、SSM框架、Rest、WebService集成技术进行应用开发，熟悉主流的Oracle、Mysql数据库。
+
+
+
+@charset "utf-8"; 
+/* DIVCSS5-CSS初始化模板-www.divcss5.com */ 
+body, div, ul, li{margin:0; padding:0;font-style: normal;font:12px/22px "\5B8B\4F53",Arial, Helvetica, sans-serif} 
+/* \5B8B\4F53 代表 宋体，更多中文字体转 Unicode http://www.divcss5.com/jiqiao/j325.shtml */ 
+ol, ul ,li{list-style:none} 
+img {border: 0; vertical-align:middle} 
+body{color:#000000;background:#FFF; text-align:center} 
+.clear{clear:both;height:1px;width:100%; overflow:hidden; margin-top:-1px} 
+a{color:#000000;text-decoration:none}  
+a:hover{color:#BA2636} 
+ 
+.red ,.red a{ color:#F00} 
+.lan ,.lan a{ color:#1E51A2} 
+.pd5{ padding-top:5px} 
+.dis{display:block} 
+.undis{display:none} 
+ 
+ul#nav{ width:100%; height:60px; background:#00A2CA;margin:0 auto} 
+ul#nav li{display:inline; height:60px} 
+ul#nav li a{display:inline-block; padding:0 20px; height:60px; line-height:60px; 
+color:#FFF; font-family:"\5FAE\8F6F\96C5\9ED1"; font-size:16px} 
+ul#nav li a:hover{background:#0095BB} 
+
+
+<ul id="nav"> 
+<li><a href="http://www.divcss5.com/">首页</a></li> 
+<li><a href="http://www.divcss5.com/html/">HTML教程</a></li> 
+<li><a href="http://www.divcss5.com/rumen/">CSS基础</a></li> 
+<li><a href="http://www.divcss5.com/css-tool/">CSS开发工具</a></li> 
+<li><a href="http://www.divcss5.com/css-texiao/">CSS特效</a></li> 
+<li><a href="http://www.divcss5.com/wenji/">CSS问题</a></li> 
+</ul> 
+
+{"data":{"result":[{"a_title":"2017年6月18日Java技术培训22"},{"a_title":"2017年6月18日Java技术培训"},{"a_title":"小葵花妈妈课堂开课啦！"},{"a_title":"小葵花妈妈课堂开课啦！"},{"a_title":"小葵花妈妈课堂开课啦1！"}]},"success":true}
+
+data = Object {data: Object, success: true}
+
+{"data":{"result":[{"anonounceId":5,"title":"2017年6月18日Java技术培训22","content":"1.Spring入门。2.Spring进阶。3.SpringMVC开发示例。","publishTime":1497707695000,"updateTime":1497707695000,"delete":false},
+{"anonounceId":4,"title":"2017年6月18日Java技术培训","content":"1.Spring入门。2.Spring进阶。3.SpringMVC开发示例。","publishTime":1497705888000,"updateTime":1497705888000,"delete":false},
+{"anonounceId":1,"title":"小葵花妈妈课堂开课啦！","content":"本周四（2017年6月15日）7点在山海ODC4楼大会议室，SpringBoot分享技术交流会，欢迎各位有兴趣的同学一起来探讨。","publishTime":1497162533000,"updateTime":1497680933000,"delete":false},
+{"anonounceId":2,"title":"小葵花妈妈课堂开课啦！","content":"本周四（2017年6月15日）7点在山海ODC4楼大会议室，SpringBoot分享技术交流会，欢迎各位有兴趣的同学一起来探讨。","publishTime":1497162533000,"updateTime":1497680933000,"delete":false},
+{"anonounceId":3,"title":"小葵花妈妈课堂开课啦1！","content":"本周四（2017年6月15日）7点在山海ODC4楼大会议室，SpringBoot进阶分享技术交流会，欢迎各位有兴趣的同学一起来探讨。","publishTime":1497162533000,"updateTime":1497680933000,"delete":false}]},
+"success":true}
+
+<script language="jscript" type="text/javascript">
+     var pageIndex = 1;      //当前页数
+      $(function(){
+          GetPageCount();//获取分页数量以及总的记录条数
+         $("#load").hide();//隐藏loading提示
+        $("#template").hide();//隐藏模板
+          ChangeState(0,1);//设置翻页按钮的初始状态
+       
+        bind();//绑定第一页的数据
+       
+        //第一页按钮click事件
+        $("#first").click(function(){
+            pageIndex = 1;
+            ChangeState(0,1);
+            bind();   
+        });
+       
+        //上一页按钮click事件
+        $("#previous").click(function(){
+            pageIndex -= 1;
+            ChangeState(-1,1);           
+            if(pageIndex <= 1){
+                pageIndex = 1;
+                ChangeState(0,-1);
+            }
+            bind();   
+        });
+      
+        //下一页按钮click事件
+        $("#next").click(function(){
+            pageIndex += 1;
+            ChangeState(1,-1);
+            if(pageIndex>=pageCount)
+            {
+                pageIndex = pageCount;
+                ChangeState(-1,0);
+            }
+            bind(pageIndex);           
+        });
+       
+        //最后一页按钮click事件
+        $("#last").click(function(){
+            pageIndex = pageCount;
+            ChangeState(1,0);
+            bind(pageIndex);           
+        });            
+        //每页显示记录条数select事件
+        $("#pageSize").change(function(){
+             bind();
+        })
+    });
+   
+    //AJAX方法取得数据并显示到页面上
+    function bind(){
+        $("#load").show();
+        var pageSize = $("#pageSize").val();
+        $.ajax({
+            type: "get",//使用get方法访问后台
+            dataType: "json",//返回json格式的数据
+            url: "<%=basePath%>actionSmUser.do?method=listUser2",//要访问的后台地址
+            data: "pageIndex=" + pageIndex+"&pageSize="+pageSize,//要发送的数据
+            complete : function(msg){//msg为返回的数据，在这里做数据绑定
+                $("[id=ready]").remove();
+                var data = eval("("+msg.responseText+")");
+                $.each(data, function(i, n){
+                    var row = $("#template").clone();
+                    row.find("#userId").text(n.userId);
+                    row.find("#userName").text(n.userName);
+                    row.find("#depId").text(n.depId);
+                    row.find("#createTime").text(n.createTime);
+                    if(n.createTime !== undefined) row.find("#createTime").text(n.createTime);
+                    row.find("#creator").text(n.creator);
+                    row.find("#menusId").text(n.menusId);
+                    row.find("#isValid").text(n.isValid);
+                                      
+                    row.attr("id","ready");//改变绑定好数据的行的id
+                    row.appendTo("#datas");//添加到模板的容器中
+                });
+                $("[id=ready]").show();
+                SetPageInfo();
+            }
+        });
+    }
+    function ChangeDate(date){
+         return date.replace("-","/").replace("-","/");
+    }
+    //设置第几页/共几页的信息
+    function SetPageInfo(){
+        var pageCount = $("#pageCount").val();
+        var totalCount = $("#totalCount").val();
+        var pageSize = $("#pageSize").val();
+      $("#pageinfo").html(" 第<input class='default_pgCurrentPage' id='pageIndex' type='text' value='"+pageIndex+
+      "' style='width: 30px'  /> 页" + "/" +"共 "+pageCount+"页"+
+      "  检索到 "+totalCount+"条记录，显示第 "+(pageIndex*pageSize-pageSize)+" 条 - 第 "+(pageIndex*pageSize)+" 条记录");
+    }
+    //AJAX方法取得分页总数
+    function GetPageCount(){
+        var pageSize = $("#pageSize").val();
+        $.ajax({
+            type: "get",
+            dataType: "text",
+            url: "<%=basePath%>actionSmUser.do?method=getPageCount",
+            data: "pageSize="+pageSize ,
+            async: false,
+            success: function(msg){
+                var data = eval("("+msg+")");
+                $("#pageCount").val(data[0].pageCount);
+                $("#totalCount").val(data[0].totalCount);
+            }
+        });
+    }

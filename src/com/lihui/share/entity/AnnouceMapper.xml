@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" > 
+<mapper namespace="com.lihui.share.dao.IAnnouncementDao">
+	<!-- 定义的resultMap，可以解决类的属性名和数据库列名不一致的问题-->
+	<resultMap type="com.lihui.share.entity.Announcement" id="announceResultMap">
+        <id property="anonounceId" column="a_id" jdbcType="INTEGER" javaType="int"/>
+        <result property="title" column="a_title" jdbcType="VARCHAR" javaType="String"/>
+        <result property="content" column="a_content" jdbcType="VARCHAR" javaType="String"/>
+        <result property="publishTime" column="a_date" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result property="updateTime" column="u_date" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result property="isDelete" column="isdelete" jdbcType="BOOLEAN" javaType="boolean"/>
+    </resultMap> 
+    
+	<select id="queryAllAnnounce" resultMap="announceResultMap">
+		select a_id,a_title,a_content,a_date,u_date,isdelete from t_announcement order by u_date DESC limit 0,12
+	</select>
+	<select id="queryFiveTitles" resultType="java.util.HashMap">
+		select a_title from t_announcement order by u_date DESC limit 0,5 
+	</select>
+	<select id="queryAnnouceById" resultMap="announceResultMap">
+		select * from t_announcement where a_id = #{0}
+	</select>
+	
+	<update id="updateAnnounce">
+		update t_announcement set a_title=#{a_title,jdbcType=VARCHAR},content=#{content,jdbcType=VARCHAR},
+		       u_id=#{u_id,jdbcType=INTEGER},
+               a_date=#{publishTime,jdbcType=TIMESTAMP},u_date=#{u_date,jdbcType=TIMESTAMP}
+               where s_id=#{s_id,jdbcType=INTEGER}
+	</update>
+	<!--更新各个字段  ad_grade,jdbcType=INTEGER  S_id,jdbcType=INTEGER-->
+	<update id="updateTitle">
+		update t_announcement set a_title=#{a_title} where a_id=#{a_id}
+	</update>
+	
+	<update id="updateContent">
+		update t_announcement set grade=#{grade} where a_id=#{a_id}
+	</update>
+	
+	<insert id="insertAnnounce" parameterType="com.lihui.share.entity.Announcement"> 
+        insert into t_announcement(a_title,a_content,a_date,u_date,isdelete) 
+               values(#{a_title,jdbcType=VARCHAR},#{a_content,jdbcType=VARCHAR},
+               #{a_date,jdbcType=TIMESTAMP},#{u_date,jdbcType=TIMESTAMP},#{isdelete,jdbcType=BOOLEAN}
+               )  
+    </insert>
+    
+    <delete id="deleteAnnounceByid" parameterType="Integer">
+    	delete from t_announcement where a_id=#{a_id}
+    </delete>
+</mapper>

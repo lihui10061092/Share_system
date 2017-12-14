@@ -1,0 +1,93 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	 xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	       http://www.springframework.org/schema/util 
+	       http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+    
+    <!--setter 注入Bean的属性
+    <bean id="dataSource" class="com.spring.lihui.util.JDBCDataSource">
+    	<property name="driver" value="oracle.jdbc.OracleDriver"></property>
+    	<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
+    	<property name="user" value="system"></property>
+    	<property name="pwd" value="passW0rd"></property>
+    </bean>
+    <bean id="oracleUserDao" class="com.spring.lihui.dao.impl.OracleUserDao">
+    	<constructor-arg index="0" ref="dataSource"></constructor-arg>
+    </bean>
+    <bean id="userService" class="com.spring.lihui.service.impl.UserService" autowire="byType">
+    </bean>
+    <bean id="userController" class="com.spring.lihui.controller.UserController" autowire="byType">
+    </bean>
+    -->
+   
+    <!--启用自动扫描  -->  
+    <context:component-scan base-package="com.lihui.share" /> 
+     
+     <!-- 默认的注解映射的支持 -->  
+    <mvc:annotation-driven /> 
+    
+    <!--定义数据源，BasicDataSource，属性包含数据库连接参数 ?characterEncoding=utf-8-->
+    <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    	<property name="url" value="jdbc:mysql://localhost/sharesystem?characterEncoding=UTF-8"/>
+    	<property name="username" value="root"/>
+    	<property name="password" value="root"/>
+    </bean>
+    <!--定义SqlSessionFactoryBean，注入myDataSource，以及指定映射XML文件的位置 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="myDataSource"></property>
+    	<property name="mapperLocations" value="classpath:com/lihui/share/entity/*.xml"/>
+    </bean>
+    <!--定义MapperFactoryBean，指定映射的接口，注入SqlSessionFactoryBean 
+    <bean id="deptMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+    	<property name="mapperInterface" value="com.lihui.mybatis.entity.DeptMapper"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+   -->
+   <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+   </bean>
+   <!-- 拦截器配置
+	 <mvc:interceptors>  
+        <mvc:interceptor>  
+           <mvc:mapping path="/*.do"/> 
+            <mvc:exclude-mapping path="/lihui/*"/>  
+            <bean class="com.lihui.share.intercepter.UserIntercepter" />  
+        </mvc:interceptor>  
+    </mvc:interceptors>  
+	-->
+    <!-- 指定包和注解标记扫描Mapper-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    	<property name="basePackage" value="com.lihui.share"></property>
+    	<property name="annotationClass" value="com.lihui.share.annotation.LHAnnotation"></property>
+    </bean>
+     <!-- 内部资源视图解析器 prefix + logicName + suffix /WEB-INF/jsps/ + index + .jsp -->  
+     <bean id="ViewResolver"  
+     class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <!-- 前缀 -->  
+        <property name="prefix" value="/lihui/jsp/" />  
+        <!-- 后缀 -->  
+        <property name="suffix" value=".jsp" />  
+     </bean>  
+    <!-- resources下的静态资源不被DispatcherServlet接收处理  -->  
+    <mvc:resources location="./" mapping="lihui/**/*.js"/>  
+      <!-- 文件上传-->
+     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSize" value="9400000"/>
+  </bean> 
+</beans>

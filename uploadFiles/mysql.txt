@@ -1,0 +1,398 @@
+2NYF6-QG2CY-9F8XC-GWMBW-29VV8
+1.在mybatis中，Bean的属性名称必须跟数据库中表的列名一致，否则会导致查询到Null值；也可以使用自定义的Map，定义数据库表列到Bean属性的映射关系。
+2.查看表结构，列名及其类型等：
+  （1）show columns from t_share; 
+  （2）explain t_share;
+  （3）describe t_share;
+root/root
+mysql -uroot -proot
+
+driver = com.mysql.jdbc.Driver
+url=jdbc:mysql://localhost/confluence
+user=root
+password=root
+jdbc:mysql://localhost/sharesystem?characterEncoding=UTF-8
+?characterEncoding=utf-8
+
+查看表的列：
+desc tabl_name;
+show columns from tabl_name;	
+
+create table t_user 
+(
+	userid int not NULL AUTO_INCREMENT,
+	uname VARCHAR(20) not null UNIQUE,
+	pwd VARCHAR(20) null,
+	tel VARCHAR(20) null,
+	addr VARCHAR(40) null,
+	company VARCHAR(30) null,
+	PRIMARY KEY(userid)
+);
+
+
+
+insert into t_user (uname,pwd,tel,addr,company) values("Lihui","Lihui","13202292200","Shenzhen","Elead");
+insert into t_user (uname,pwd,tel,addr,company) values("Rose","Rose","13202292266","Shenzhen","Huawei");
+
+
+create table mybatis_user
+(
+	userid int not NULL AUTO_INCREMENT,
+	loginname VARCHAR(20) not null,
+	pwd VARCHAR(20),
+	uname VARCHAR(20),
+	authority VARCHAR(5),
+	status tinyint,
+	role_id int,
+	last_login datetime,
+	PRIMARY KEY(userid)
+);
+
+===========
+ SET character_set_client = utf8 ;
+ SET character_set_connection = utf8 ;
+  SET character_set_database = utf8 ;
+ SET character_set_results = utf8 ;
+  SET character_set_server = utf8 ;
+  SET collation_connection = utf8 ;
+ SET collation_database = utf8 ;
+ SET collation_server = utf8 ;
+ 
+ =============================
+ create table t_emp
+ (
+	empid int not NULL AUTO_INCREMENT,
+	ename varchar(20),
+	job varchar(10),
+	mgr int,
+	hiredate date,
+	sal double,
+	comm double,
+	dptinfo varchar(12),
+	primary key(empid)
+ );
+ 
+ insert into t_emp(empid,ename,job,mgr,hiredate,sal,comm,dptinfo) values (1,'Lihui','PM',8000,'2014-11-11',80000,90000,'PLM');
+ insert into t_emp(empid,ename,job,mgr,hiredate,sal,comm,dptinfo) values (2,'tom','EGN',205,'2014-11-11',10000,3000,'PLM');
+ 
+ 
+ ======================================
+ create table t_dept
+ (
+	deptno int not NULL AUTO_INCREMENT,
+	dname varchar(20),
+	loc varchar(50),
+	primary key(deptno)
+ );
+
+insert into t_dept(deptno,dname,loc) values(1,'PLM1','llkjlkjlkj');
+insert into t_dept(deptno,dname,loc) values(2,'PLM2','llkjlkjlkjsdf');
+insert into t_dept(deptno,dname,loc) values(3,'PLM3','llkjlkjlkjdgdag');
+insert into t_dept(deptno,dname,loc) values(4,'PLM4','llkjlkjlkjagdsg');
+ 
+ 
+ 
+ =========================================
+ /*
+Navicat MySQL Data Transfer
+ 
+Source Server         : local
+Source Server Version : 50160
+Source Host           : localhost:3306
+Source Database       : test
+ 
+Target Server Type    : MYSQL
+Target Server Version : 50160
+File Encoding         : 65001
+ 
+Date: 2014-11-18 09:31:45
+*/
+ 
+SET FOREIGN_KEY_CHECKS=0;
+ 
+-- ----------------------------
+-- Table structure for `userinfo`
+-- ----------------------------
+DROP TABLE IF EXISTS `userinfo`;
+CREATE TABLE `userinfo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `birthday` datetime DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT '888888',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+ 
+-- ----------------------------
+-- Records of userinfo
+-- ----------------------------
+INSERT INTO `userinfo` VALUES ('2', '李四', '22', '2014-11-03 14:28:53', '北京', '888888');
+INSERT INTO `userinfo` VALUES ('3', '张三三', '21', '2014-11-15 15:55:33', '北京', '888888');
+INSERT INTO `userinfo` VALUES ('4', '李四四', '20', '2014-11-15 16:00:40', '北京', '888888');
+INSERT INTO `userinfo` VALUES ('5', '王五', '20', '2014-11-15 16:02:41', '北京', '888888');
+INSERT INTO `userinfo` VALUES ('7', '测试', '19', '2014-11-15 16:54:05', '北京', '888888');
+
+ 
+ u_id	login_name	name pwd	email	tel	addr	company	dept	projttm	position	level
+ 
+ ALTER DATABASE `sharesystem` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+ ALTER TABLE `t_user` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+ ALTER TABLE `t_admin` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+ ALTER TABLE `t_share` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+ ALTER TABLE `t_comment` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+ ALTER TABLE `t_grade` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+ ALTER TABLE `t_integrade` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+ ALTER TABLE `t_posting` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+ 
+SET character_set_client='utf8';  
+SET character_set_connection='utf8';  
+SET character_set_results='utf8';
+
+set character_set_client = 'gbk' ;
+set character_set_connection = 'gbk' ;
+set character_set_results= 'gbk' ;
+set character_set_server= 'gbk' ;
+
+my.ini
+ ==========================================================================================================share system ==========================
+ mysql -uroot -proot
+ create database sharesystem;
+ use sharesystem;
+ 
+ ---------------------------------------
+  create table t_user
+ (
+	user_id int not NULL AUTO_INCREMENT,
+	loginame varchar(40),
+	name varchar(40),
+	sex varchar(1),
+	emp_id varchar(40),
+	pwd varchar(40),
+	email varchar(40),
+	tel varchar(20),
+	addr varchar(40),
+	company varchar(40),
+	dept varchar(40),
+	project varchar(40),
+	position varchar(40),
+	level varchar(20),
+	hiredate date,
+	primary key(user_id)
+ );
+ 
+
+  values(#{loginame,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{emp_id,jdbcType=VARCHAR},
+             #{pwd,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},
+             #{tel,jdbcType=VARCHAR},#{addr,jdbcType=VARCHAR},#{company,jdbcType=VARCHAR},
+             #{dept,jdbcType=VARCHAR},#{project,jdbcType=VARCHAR},#{position,jdbcType=VARCHAR},
+             #{level,jdbcType=VARCHAR})  
+			 
+			 
+			 values(#{loginame},#{name},#{emp_id},
+             #{pwd},#{email},
+             #{tel},#{addr},#{company},
+             #{dept},#{project},#{position},
+             #{level})  
+ -------------- insert into t_user(loginame,name,sex,emp_id,pwd,email,tel,addr,company,dept,project,position,level,hiredate) 
+			 values('lihui525780','lihui','M','lwx248053','lihui@wx248053','lihui12@huawei.com','13202292200','黄金山社区','Elead','PLM','PMS','SE','6B','2014-11-11');---------------------
+ create table t_admin
+ (
+	ad_name varchar (20),
+	pwd varchar(20)
+ );
+ insert into t_admin(ad_name,pwd) values('admin','admin');
+ -----------------------------------
+  create table t_share
+ (
+	s_id int not NULL AUTO_INCREMENT,
+	type varchar(20),
+	subject varchar(50),
+	content varchar(300),
+	u_id int,
+	s_time date,
+	attachments varchar(200),
+	grade double,
+	stu_num smallint,
+	grade_num smallint,
+	ad_grade double,
+	primary key(s_id)
+ );
+ 
+ 
+ -----------------------------------
+ create table  t_grade
+ (
+	s_id int,
+	u_id int,
+	grade smallint
+ );
+ -----------------------------------
+ create table t_integrade
+ (
+	u_id int,
+	t_grade double
+ );
+ -----------------------------------
+
+ 
+ create table t_posting
+ (
+	posting_id int not NULL AUTO_INCREMENT,
+	u_id int,
+	title varchar(80),
+	content varchar(4000),
+	comment_num smallint,
+	isdelete boolean,
+	postdate timestamp,
+	updatedate timestamp,
+	primary key(posting_id)
+ );
+ -----------------------------------
+
+ create table t_comment
+ (
+	comment_id int not NULL AUTO_INCREMENT,
+	u_id int,
+	posting_id int,
+	p_comment_id int,
+	c_content varchar(500),
+	isdelete boolean,
+	postdate timestamp,
+	primary key(comment_id)
+ );
+ -----------------------------------
+  create table t_announcement
+ (
+	a_id int not NULL AUTO_INCREMENT,
+	a_title varchar(50),
+	a_content varchar(500),
+	a_date timestamp,
+	u_date timestamp,
+	isdelete boolean,
+	primary key(a_id)
+ );
+ 
+ insert into t_announcement(a_title,a_content,a_date,u_date,isdelete) values('小葵花妈妈课堂开课啦1！','本周四（2017年6月15日）7点在山海ODC4楼大会议室，SpringBoot进阶分享技术交流会，欢迎各位有兴趣的同学一起来探讨。','2017-6-11 14:28:53','2017-6-17 14:28:53',false);
+ -------------------------------------------
+ 
+ ?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+ 
+ 
+ <h5>jquery使用正则表达式验证email地址</h5>
+输入Email地址：<input type="text" name="email" /><input type="text" name="check" style="border-width:0px;color:red" />
+ 
+ 
+ Mybatis实现真正分页查询
+MyBatis 本身是有分页查询的但是并不是真正的分页查询。它是先把数据查出来放在内存里面你要什么给你什么。
+和真正的分页查询还是不一样的。如果数据太多的话。内存肯定会溢出的。那么下面我来介绍一下如何使用myBatis
+真正实现分页查询。就是用sql语句来实现分页查询。MySQL和Oracle两种数据库的实现方法是不一样的，这里的不一样知识sql
+语句不一样在真正myBatis上面实现还是相同的。
+Mysql： elect *  from *** limit index,count index是第几条记录（Mysql从0开始,count是显示几条 limit 0,5 就是
+从第0个记录开始的5条记录。
+Oracle: selext * from(select * ,ROWNUM RN from(select * from xx order  by XX))where rn between 10 and 20
+一定要先排序在编号最后在分页。
+下面的是我用mysql实现的 (oracle同理 把sql变一下（oracle是从index1开始）后面between page+(page-1)*每页显示记录数 
+
+ 
+ 
+ 
+ data-options="buttonAlign:'right',buttonText:'请选择文件..',pro"
+					style="width:90%"
+					
+					data-options="buttonAlign:'right',buttonText:'请选择文件..',multiple:'true',separator:';'"
+					style="width:100%"
+ <button type="button" class >Upload</button>
+ 
+ 
+ MySQL添加字段应该如何实现呢？这是很多刚刚接触MySQL数据库的新人都提到过的问题，下面就为您介绍MySQL添加字段和删除字段的方法，希望对您能有所启迪。
+
+MySQL添加字段：
+
+alter table `user_movement_log`   
+Add column GatewayId int not null default 0 AFTER `Regionid` (在哪个字段后面添加)  
+ 
+删除字段：
+
+alter table `user_movement_log` drop column Gatewayid  
+ 
+调整字段顺序：
+
+ALTER TABLE `user_movement_log` CHANGE `GatewayId` `GatewayId` int not null default 0 AFTER RegionID  
+ 
+//主键  
+ 
+alter table tabelname add new_field_id int(5) unsigned default 0 not null auto_increment ,add primary key (new_field_id);//增加一个新列  
+ 
+alter table t2 add d timestamp;  
+alter table infos add ex tinyint not null default '0';//删除列  
+ 
+alter table t2 drop column c;//重命名列  
+ 
+alter table t1 change a b integer;  
+//改变列的类型  
+ 
+alter table t1 change b b bigint not null;  
+alter table infos change list list tinyint not null default '0';  
+//重命名表  
+ 
+alter table t1 rename t2;加索引  
+ 
+mysql> alter table tablename change depno depno int(5) not null;  
+mysql> alter table tablename add index 索引名 (字段名1[，字段名2 …]);  
+mysql> alter table tablename add index emp_name (name);加主关键字的索引  
+ 
+mysql> alter table tablename add primary key(id);加唯一限制条件的索引  
+ 
+mysql> alter table tablename add unique emp_name2(cardnumber);删除某个索引  
+ 
+mysql>alter table tablename drop index emp_name;修改表：  
+ 
+增加字段：
+
+mysql> ALTER TABLE table_name ADD field_name field_type;修改原字段名称及类型：  
+ 
+mysql> ALTER TABLE table_name CHANGE old_field_name new_field_name field_type;删除字段：  
+ 
+mysql> ALTER TABLE table_name DROP field_name;  
+ 
+ easyUI data-options 显示json嵌套数据
+ 
+  ALTER TABLE t_share ADD lastmodifytime timestamp;
+ 
+ 
+<!--column:指外键值， property: 指的是属性的值, javaType：指的是属性的类型-->
+		<association column="pid" property="person" javaType="com.ittx.mybatis.demo1.model.Person">
+			<id column="personId" property="id"/>
+			<result column="personName" property="name"/>
+			<result column="personAddress" property="address"/>
+			<result column="personTel" property="tel"/>
+		</association>
+ 
+ [shareId=14, type=Java技术1, subject=Spring121, content=1.Spring入门。2.Spring进阶。3.SpringMVC开发示例。, auther=null, shareDate=Tue Jul 11 00:00:00 CST 2017, attachements=Spring核心及其应用示例.pptx,Spring Boot入门, grade=9.5, studentNum=32, grade_num=21, adGrade=8],
+ 
+ [Share [shareId=14, type=Java技术1, subject=Spring121, content=1.Spring入门。2.Spring进阶。3.SpringMVC开发示例。, auther=null, shareDate=Tue Jul 11 00:00:00 CST 2017, attachements=Spring核心及其应用示例.pptx,Spring Boot入门, grade=9.5, studentNum=32, grade_num=21, adGrade=8],
+ 
+ 
+ [Share [shareId=14, type=Java技术1, subject=Spring121, content=1.Spring入门。2.Spring进阶。3.SpringMVC开发示例。, auther=null, shareDate=Tue Jul 11 00:00:00 CST 2017, attachements=Spring核心及其应用示例.pptx,Spring Boot入门, grade=9.5, studentNum=32, grade_num=21, adGrade=8], 
+ 
+ 防止中文乱码过滤器
+
+项目使用spring框架时。当前台JSP页面和Java代码中使用了不同的字符集进行编码的时候就会出现表单提交的数据或者上传/下载中文名称文件出现乱码的问题，那就可以使用这个过滤器。
+
+<filter>
+    <filter-name>encoding</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+        <param-name>encoding</param-name><!--用来指定一个具体的字符集-->
+        <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+        <param-name>forceEncoding</param-name><!--true：无论request是否指定了字符集，都是用encoding；false：如果request已指定一个字符集，则不使用encoding-->
+        <param-value>false</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+    <filter-name>encoding</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>

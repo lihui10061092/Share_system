@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" > 
+<mapper namespace="com.lihui.share.dao.IPostingDao">
+	<!-- 自定义的resultMap，可以解决类的属性名和数据库列名不一致的问题-->
+	<resultMap type="com.lihui.share.entity.Posting" id="postingResultMap">
+        <result property="postingId" column="posting_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="userId" column="u_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="title" column="title" jdbcType="VARCHAR" javaType="String"/>
+        <result property="content" column="content" jdbcType="VARCHAR" javaType="String"/>
+        <result property="commentNum" column="comment_num" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="isdelete" column="isdelete" jdbcType="BOOLEAN" javaType="boolean"/>
+        <result property="postDate" column="postdate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result property="updateDate" column="updatedate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+    </resultMap> 
+    
+    <insert id="insertPosting" parameterType="com.lihui.share.entity.Posting"> 
+        insert into t_posting(u_id,title,content,comment_num,isdelete,postdate,updatedate)  
+               values(#{u_id,jdbcType=INTEGER},#{title,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},
+             #{comment_num,jdbcType=INTEGER},#{isdelete,jdbcType=BOOLEAN},
+             #{postdate,jdbcType=TIMESTAMP},#{updatedate,jdbcType=TIMESTAMP})
+    </insert>
+    
+    <update id="updatePosting">
+		update t_posting set title=#{title},content=#{content},updatedate=#{updatedate} where posting_id=#{posting_id}
+	</update>
+    
+	<select id="findPostingById" resultMap="postingResultMap">
+		select * from t_posting where posting_id=#{p_id}
+	</select>
+	
+	<select id="findAllPosting" resultMap="postingResultMap">
+		select * from t_posting;
+	</select>
+	
+	<delete id="deletePostingById">
+		delete from t_posting where posting_id=#{p_id}
+	</delete>
+	<!--
+	-->
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" > 
+<mapper namespace="com.lihui.share.dao.IUserGradeDao">
+	<!-- 自定义的resultMap，可以解决类的属性名和数据库列名不一致的问题-->
+	<resultMap type="com.lihui.share.entity.UserGrade" id="userGradeResultMap">
+        <result property="userId" column="u_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="grade" column="t_grade" jdbcType="DOUBLE" javaType="Double"/>
+    </resultMap> 
+    
+    <insert id="insertUserGrade">
+    	insert into t_integrade (u_id,t_grade) values(#{u_id},#{grade})
+    </insert>
+    
+    <update id="updateUserGrade">
+		update t_integrade set t_grade=#{grade} where u_id=#{u_id}
+	</update>
+    
+	<select id="findUserGradeByUid" resultMap="userGradeResultMap">
+		select * from t_integrade where u_id=#{u_id}
+	</select>
+	
+	<select id="findAllUserGrade" resultMap="userGradeResultMap">
+		select * from t_integrade;
+	</select>
+	<delete id="deleteUserGrade">
+		delete from t_integrade where u_id=#{u_id}
+	</delete>
+	<!---->
+</mapper>

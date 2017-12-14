@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" > 
+<mapper namespace="com.lihui.share.dao.IAdminDao">
+	<!-- 自定义的resultMap，可以解决类的属性名和数据库列名不一致的问题-->
+	<resultMap type="com.lihui.share.entity.Admin" id="adminResultMap">
+        <result property="adName" column="ad_name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="pwd" column="pwd" jdbcType="VARCHAR" javaType="String"/>
+    </resultMap> 
+	<select id="queryAdminByNameAndPwd" resultMap="adminResultMap">
+		select * from t_admin where ad_name=#{ad_name} and pwd=#{pwd}
+	</select>
+	
+</mapper>
