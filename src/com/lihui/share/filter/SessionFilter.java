@@ -48,7 +48,7 @@ public class SessionFilter implements Filter
 		HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper((HttpServletResponse) response);
 		String logonStrs = config.getInitParameter("logonStrings");
 		String includeStrings = config.getInitParameter("includeStrings");    // 过滤资源后缀参数
-        String redirectPath = hrequest.getContextPath() + config.getInitParameter("redirectPath");// 没有登陆转向页面
+        String redirectPath = hrequest.getContextPath() + config.getInitParameter("redirectPath");// 没有登录转向页面
         String disabletestfilter = config.getInitParameter("disabletestfilter");// 过滤器是否有效
         if (disabletestfilter.toUpperCase().equals("Y")) 
         {    // 过滤无效
@@ -58,23 +58,25 @@ public class SessionFilter implements Filter
         String[] logonList = logonStrs.split(";");
         String[] includeList = includeStrings.split(";");
         
-        if (!this.isContains(hrequest.getRequestURI(), includeList)) 
+        if(!this.isContains(hrequest.getRequestURI(), includeList)) 
         {// 只对指定过滤参数后缀进行过滤
             chain.doFilter(request, response);
             return;
         }
-
-        if (this.isContains(hrequest.getRequestURI(), logonList))
+        String admin = (String) hrequest.getSession().getAttribute("username");
+        if(this.isContains(hrequest.getRequestURI(), logonList) || null != admin)
         {// 对登录页面不进行过滤
             chain.doFilter(request, response);
             return;
         }
-        String user = ( String ) hrequest.getSession().getAttribute("username");//判断用户是否登录
-        if (user == null) 
+        String user = (String) hrequest.getSession().getAttribute("username");//判断用户是否登录
+        
+        if(user == null) 
         {
             wrapper.sendRedirect(redirectPath);
             return;
-        }else 
+        }
+        else
         {
             chain.doFilter(request, response);
             return;

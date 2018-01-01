@@ -1,6 +1,5 @@
 package com.lihui.share.entity;
 
-import java.util.Date;
 
 public class User
 {
@@ -36,7 +35,9 @@ public class User
 	private String level;
 	
 	//入职日期
-	private Date hiredate;
+//	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+//	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+	private String hiredate;
 
 	public String getSex()
 	{
@@ -48,12 +49,12 @@ public class User
 		this.sex = sex;
 	}
 
-	public Date getHiredate()
+	public String getHiredate()
 	{
 		return hiredate;
 	}
 
-	public void setHiredate(Date hiredate)
+	public void setHiredate(String hiredate)
 	{
 		this.hiredate = hiredate;
 	}
@@ -200,7 +201,7 @@ public class User
 	}
 	
 	public User(int userId, String loginName, String name, String empId, String password, String email, String telNum,
-			String addr, String company, String dept, String project, String position, String level)
+			String addr, String company, String dept, String project, String position, String level, String hireDate)
 	{
 		this.user_id = userId;
 		this.loginame = loginName;
@@ -215,6 +216,7 @@ public class User
 		this.project = project;
 		this.position = position;
 		this.level = level;
+		this.hiredate = hireDate;
 	}
 
 	@Override

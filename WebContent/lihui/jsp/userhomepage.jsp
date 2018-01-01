@@ -41,14 +41,14 @@
 	
 	
 	<div style="margin:20px 0;"></div>
-	<div >
+	<div>
 			<br />
-			<table id="mytable" style="width:100%;height:550px"
+			<table id="mytable" class="easyui-datagrid" style="width:100%;height:550px"
 			data-options="rownumbers:true,title:'我的分享',singleSelect:true,pagination:true,
 			url:'/Share_system/share/queryMyShareByPage.do',method:'get'">
 		<thead>
 			<tr>
-				<th data-options="field:'type',width:100">类型</th>
+				<th data-options="field:'type',width:100,checkbox:true">类型</th>
 				<th data-options="field:'subject',width:100">主题</th>
 				<th data-options="field:'content',width:260">内容</th>
 				<th data-options="field:'attachements',width:600,align:'left'">附件</th>
@@ -56,7 +56,7 @@
 			</tr>
 		</thead>
 	</table>
-			</div>
+	</div>
 	
 	
 	

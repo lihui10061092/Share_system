@@ -3,11 +3,11 @@ package com.lihui.share.dao.impl;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+//import org.springframework.stereotype.Repository;
 
 import com.lihui.share.dao.IAdminDao;
 import com.lihui.share.entity.Admin;
-@Repository
+
 public class AdminDaoImpl implements IAdminDao
 {
 	private SqlSessionTemplate template;

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lihui.share.dao.IShareDao;
 import com.lihui.share.dao.IUserDao;
 import com.lihui.share.entity.User;
 import com.lihui.share.service.IUserService;
@@ -22,10 +23,13 @@ public class UserServiceImpl implements IUserService
 	@Autowired
 	private IUserDao userDao;
 	
+	@Autowired
+	private IShareDao shareDao;
+	
 	@Override
 	public User findUserById(int userId)
 	{
-		return userDao.findUserById(userId);
+		return userDao.queryUserById(userId);
 	}
 
 	@Override
@@ -39,7 +43,7 @@ public class UserServiceImpl implements IUserService
 	@Override
 	public User findUserByLoginNameAndPwd(String loginame, String pwd)
 	{
-		return userDao.findUserByLoginNameAndPwd(loginame, pwd);
+		return userDao.queryUserByLoginNameAndPwd(loginame, pwd);
 	}
 
 	@Override
@@ -54,11 +58,17 @@ public class UserServiceImpl implements IUserService
 		boolean isDelete = true;
 		User user = null;
 		userDao.deleteUserById(userId);
+		//删除用户后，该用户的分享和分享评分、论坛帖子及评论和回复都要删除
 		user = this.findUserById(userId);
 		//根据id查询到用户，表明删除失败
 		if(null != user)
 		{
 			isDelete = false;
+		}
+		if(isDelete)
+		{
+			shareDao.deleteShareByUserId(userId);
+			//TODO 删除该用户分享评分、论坛帖子及评论和回复
 		}
 		return isDelete;
 	}
@@ -77,6 +87,20 @@ public class UserServiceImpl implements IUserService
 	@Override
 	public User findUserByLoginName(String loginame)
 	{
-		return userDao.findUserByLoginName(loginame);
+		return userDao.queryUserByLoginName(loginame);
+	}
+
+	@Override
+	public List<User> queryUserByPage(int pageIndex, int row)
+	{
+		int start = (pageIndex - 1) * row;
+		int end = pageIndex * row;
+		return userDao.queryUserByPage(start, end);
+	}
+
+	@Override
+	public int queryUserCounts()
+	{
+		return userDao.queryUserCounts();
 	}
 }

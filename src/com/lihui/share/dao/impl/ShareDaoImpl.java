@@ -125,4 +125,10 @@ public class ShareDaoImpl implements IShareDao
 		return tmp.selectOne("getOthersShareCounts");
 	}
 
+	@Override
+	public void deleteShareByUserId(int userId)
+	{
+		tmp.delete("deleteShareByUserId", userId);
+	}
+
 }

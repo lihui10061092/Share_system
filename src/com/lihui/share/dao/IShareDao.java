@@ -40,4 +40,6 @@ public interface IShareDao
 	public List<Share> findOthersShareByPage(@Param("userId") int userId, @Param("start")int start, @Param("end")int end);
 
 	public int getOthersShareCounts(@Param("userId") int userId);
+
+	public void deleteShareByUserId(@Param("userId") int userId);
 }

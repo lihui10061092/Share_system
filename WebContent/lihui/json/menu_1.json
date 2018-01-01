@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1325,
+    "pid": 2,
+    "text": "用户管理",
+    "state": "closed",
+    "iconCls": "fa fa-user",
+    "url": ""
+  },
+  {
+    "id": 60,
+    "pid": 2,
+    "text": "分享管理",
+    "state": "closed",
+    "iconCls": "",
+    "url": ""
+  },
+   {
+    "id": 61,
+    "pid": 2,
+    "text": "论坛管理",
+    "state": "closed",
+    "iconCls": "",
+    "url": ""
+  },
+   {
+    "id": 62,
+    "pid": 2,
+    "text": "用户积分查询",
+    "state": "closed",
+    "iconCls": "",
+    "url": ""
+  }
+]

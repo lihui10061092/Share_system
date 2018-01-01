@@ -21,4 +21,8 @@ public interface IUserService
 	public boolean deleteUserById(int userId);
 	
 	public void insertUser(Map<String, Object> addParams);
+
+	public List<User> queryUserByPage(int pageIndex, int row);
+
+	public int queryUserCounts();
 }

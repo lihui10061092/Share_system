@@ -15,7 +15,7 @@
 <script type="text/javascript" language="javascript" src="<%=contextPath%>/lihui/js/validate.js"></script>
 
 
-<link rel="stylesheet" type="text/css" href="<%=contextPath%>/lihui/easyUI/themes/gray/easyui.css"/>
+<link rel="stylesheet" type="text/css" href="<%=contextPath%>/lihui/easyUI/themes/metroblue/easyui.css"/>
 <link rel="stylesheet" type="text/css" href="<%=contextPath%>/lihui/easyUI/themes/icon.css"/>
 <link rel="stylesheet" type="text/css" href="<%=contextPath%>/lihui/easyUI/themes/color.css"/>
 

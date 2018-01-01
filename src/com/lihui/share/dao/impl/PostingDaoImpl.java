@@ -6,12 +6,12 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+//import org.springframework.stereotype.Repository;
 
 import com.lihui.share.dao.IPostingDao;
 import com.lihui.share.entity.Posting;
 
-@Repository
+//@Repository
 public class PostingDaoImpl implements IPostingDao
 {
 	@Autowired

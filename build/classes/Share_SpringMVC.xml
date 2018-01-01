@@ -36,8 +36,34 @@
     <!--启用自动扫描  -->  
     <context:component-scan base-package="com.lihui.share" /> 
      
-     <!-- 默认的注解映射的支持 -->  
+     <!-- 默认的注解映射的支持
     <mvc:annotation-driven /> 
+     -->  
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean
+                class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <!-- 处理responseBody 里面日期类型 -->
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+                            </bean>
+                        </property>
+                        <!-- 时区指定 -->
+                        <property name="timeZone" value="GMT+8" />
+                        <!-- 为null字段时不显示 -->
+                        <property name="serializationInclusion">
+                            <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+  
+   <bean id="customObjectMapper" class="com.lihui.share.util.CustomObjectMapper"></bean> 
     
     <!--定义数据源，BasicDataSource，属性包含数据库连接参数 ?characterEncoding=utf-8-->
     <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

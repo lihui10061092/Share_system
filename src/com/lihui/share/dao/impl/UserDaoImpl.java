@@ -31,7 +31,7 @@ public class UserDaoImpl extends Base implements IUserDao
 	}
 	
 	@Override
-	public User findUserById(int userId)
+	public User queryUserById(int userId)
 	{
 		User user = null;
 		user = tmp.selectOne("findUserById", userId);
@@ -39,7 +39,7 @@ public class UserDaoImpl extends Base implements IUserDao
 	}
 
 	@Override
-	public User findUserByLoginNameAndPwd(String loginame, String pwd)
+	public User queryUserByLoginNameAndPwd(String loginame, String pwd)
 	{
 		User user = null;
 		user = tmp.selectOne(loginame, pwd);
@@ -89,17 +89,31 @@ public class UserDaoImpl extends Base implements IUserDao
 	@Override
 	public List<User> findAll()
 	{
-		List<User> userList = new ArrayList<>();
+		List<User> userList = new ArrayList<User>();
 		userList = tmp.selectList("findAll");
 		return userList;
 	}
 
 	@Override
-	public User findUserByLoginName(String loginame)
+	public User queryUserByLoginName(String loginame)
 	{
 		User user = null;
 		user = tmp.selectOne("findUserByLoginName", loginame);
 		return user;
+	}
+
+	@Override
+	public List<User> queryUserByPage(int start, int end)
+	{
+		List<User> userList = new ArrayList<User>();
+		userList = tmp.selectList("queryUserByPage");
+		return userList;
+	}
+
+	@Override
+	public int queryUserCounts()
+	{
+		return tmp.selectOne("queryUserCounts");
 	}
 
 }

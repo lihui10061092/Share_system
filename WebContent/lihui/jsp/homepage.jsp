@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>homepage</title>
+<title>System homepage</title>
 <script type="text/javascript" language="javascript" src="<%=contextPath%>/lihui/jQuery/jquery-2.2.3.min.js" ></script>
 <script type="text/javascript" language="javascript" src="<%=contextPath%>/lihui/easyUI/jquery.easyui.min.js" ></script>
 <script type="text/javascript" language="javascript" src="<%=contextPath%>/lihui/easyUI/locale/easyui-lang-zh_CN.js" ></script>
@@ -37,11 +37,7 @@ $(function(){
 $(function(){  
 	getAnnounceTitles();
 	});
-function deal_auther(value,row,rowIndex) {
-    if(row.auther!=undefined){
-        return row.auther.emp_id;
-    }
-}
+
 </script>
 </head>
 <body class="easyui-layout">
@@ -79,15 +75,22 @@ function deal_auther(value,row,rowIndex) {
 			url:'/Share_system/share/queryOthersShareByPage.do',method:'get'">
 		<thead>
 			<tr>
-			<!--  
+			  
 				<th data-options="field:'type',width:100">类型</th>
 				<th data-options="field:'subject',width:100">主题</th>
 				<th data-options="field:'content',width:260">内容</th>
 				<th data-options="field:'attachements',width:600,align:'left'">附件</th>
-				<th data-options="field:'auther',width:200,align:'left'">讲师</th>
+				<th data-options="field:'auther',
+				formatter:function(value,row,rowIndex) {
+				    if(row.auther!=undefined){
+				        return row.auther.emp_id;
+				    }
+				},
+				width:200,align:'left'">讲师</th>
 				<th data-options="field:'studentNum',width:100,align:'left'">听课人数</th>
 				<th data-options="field:'myScore',width:100">我的评分</th>
-				-->
+				
+				<!--
 				<th field='type' width='100'>类型</th>
 				<th field='subject' width='100'>主题</th>
 				<th field='content' width='260'>内容</th>
@@ -95,6 +98,7 @@ function deal_auther(value,row,rowIndex) {
 				<th field='auther' width='200' formatter='deal_auther' align='left'>讲师</th>
 				<th field='studentNum' width='100' align='left'>听课人数</th>
 				<th field='myScore' width='100'>我的评分</th>
+				-->
 			</tr>
 		</thead>
 	</table>

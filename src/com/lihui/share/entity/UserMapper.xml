@@ -3,21 +3,45 @@
 "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" > 
 <mapper namespace="com.lihui.share.dao.IUserDao">
 	<!-- 定义的resultMap，可以解决类的属性名和数据库列名不一致的问题-->
-
+	<resultMap type="com.lihui.share.entity.User" id="userResultMap">
+        <id property="user_id" column="user_id" jdbcType="INTEGER" javaType="int"/>
+        <result property="loginame" column="loginame" jdbcType="VARCHAR" javaType="String"/>
+        <result property="name" column="name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR" javaType="String"/>
+        
+        <result property="emp_id" column="emp_id" jdbcType="VARCHAR" javaType="String"/>
+        <result property="pwd" column="pwd" jdbcType="VARCHAR" javaType="String"/>
+        <result property="email" column="email" jdbcType="VARCHAR" javaType="String"/>
+        <result property="tel" column="tel" jdbcType="VARCHAR" javaType="String"/>
+        <result property="addr" column="addr" jdbcType="VARCHAR" javaType="String"/>
+        <result property="company" column="company" jdbcType="VARCHAR" javaType="String"/>
+        <result property="dept" column="dept" jdbcType="VARCHAR" javaType="String"/>
+        <result property="project" column="project" jdbcType="VARCHAR" javaType="String"/>
+        <result property="position" column="position" jdbcType="VARCHAR" javaType="String"/>
+        <result property="level" column="level" jdbcType="VARCHAR" javaType="String"/>
+        <result property="hiredate" column="hiredate" jdbcType="DATE" javaType="String"/>
+        
+	</resultMap>
 	<select id="findAll" resultType="com.lihui.share.entity.User">
-		select user_id,loginame,name,emp_id,pwd,email,tel,addr,company,dept,project,position,level from t_user
+		select user_id,loginame,name,sex,emp_id,pwd,email,tel,addr,company,dept,project,position,level,hiredate from t_user
 	</select>
-	<select id="findUserById" resultType="com.lihui.share.entity.User">
+	<select id="queryUserByPage" resultType="com.lihui.share.entity.User">
+		select user_id,loginame,name,sex,emp_id,pwd,email,tel,addr,company,dept,project,position,level,date_format(hiredate,'%Y-%m-%d') as 'hiredate' from t_user
+		order by user_id ASC limit #{start},#{end}
+	</select>
+	<select id="queryUserById" resultType="com.lihui.share.entity.User">
 		select * from t_user where user_id = #{user_id}
 	</select>
-	<select id="findUserByLoginNameAndPwd" resultType="com.lihui.share.entity.User">
+	<select id="queryUserByLoginNameAndPwd" resultType="com.lihui.share.entity.User">
 		select * from t_user where loginame = #{0} and pwd = #{1}
 	</select>
 	
-	<select id="findUserByLoginName" resultType="com.lihui.share.entity.User">
+	<select id="queryUserByLoginName" resultType="com.lihui.share.entity.User">
 		select * from t_user where loginame = #{0}
 	</select>
-	
+	<select id="queryUserCounts" resultType="Integer">
+		select count(*) from t_user
+	</select>
 	<update id="updateUser">
 		update t_user set loginame=#{loginame,jdbcType=VARCHAR},name=#{name,jdbcType=VARCHAR},emp_id=#{emp_id,jdbcType=VARCHAR},
 		pwd=#{pwd,jdbcType=VARCHAR},email=#{email,jdbcType=VARCHAR},tel=#{tel,jdbcType=VARCHAR},

@@ -2,6 +2,7 @@ package com.lihui.share.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.lihui.share.base.BaseController;
 import com.lihui.share.entity.User;
 import com.lihui.share.service.IUserService;
@@ -62,7 +66,7 @@ public class UserController extends BaseController
 		return rb;
 	}
 	
-	@RequestMapping(value="/delete.do")
+	@RequestMapping(value="/deleteUserById.do")
 	@ResponseBody
 	public ResultBean deleteUser(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -76,23 +80,49 @@ public class UserController extends BaseController
 		return rb;
 	}
 	
-	@RequestMapping(value="/allUser.do")
+	@RequestMapping(value="/listAllUser.do")
 	@ResponseBody
-	public ResultBean queryAllUser(HttpServletRequest request, HttpServletResponse response)
+	public List<User> queryAllUser(HttpServletRequest request, HttpServletResponse response)
 	{
-		boolean success = false;
-		ResultBean rb = ResultBean.getInstance();
-		Map<String, Object> resultData = new HashMap<String, Object>();
+//		boolean success = false;
+//		ResultBean rb = ResultBean.getInstance();
+//		Map<String, Object> resultData = new HashMap<String, Object>();
 		List<User> allUser = new ArrayList<User>();
 		allUser = userService.findAll();
-		if(allUser.size() > 0)
-		{
-			success = true;
-		}
-		resultData.put("data", allUser);
-		rb.setSuccess(success);
-		rb.setData(resultData);
-		return rb;
+//		if(allUser.size() > 0)
+//		{
+//			success = true;
+//		}
+//		resultData.put("data", allUser);
+//		rb.setSuccess(success);
+//		rb.setData(resultData);
+//		return rb;
+		return allUser;
+	}
+	
+	@RequestMapping(value="/queryUserByPage.do")
+	@ResponseBody
+	public JSONObject queryUserByPage(HttpServletRequest request, HttpServletResponse response)
+	{
+		JSONObject jo = new JSONObject();
+		// 当前页数
+		int pageIndex = Integer.valueOf(request.getParameter("page"));
+		// 每页显示几条数据
+		int row = Integer.valueOf(request.getParameter("rows"));
+		List<User> userList = new ArrayList<User>();
+		userList = userService.queryUserByPage(pageIndex, row);
+//		for(User user : userList)
+//		{
+//			Date hireDate = user.getHiredate();
+//			SimpleDateFormat sf = new SimpleDateFormat();
+//			user.setHiredate(DateUtil.strToDateTime(sf.format(hireDate)));
+//		}
+//		SimpleDateFormat sf = new SimpleDateFormat();
+		JSONArray ja = JSONArray.parseArray(JSON.toJSONString(userList));
+		int userCounts = userService.queryUserCounts();
+		jo.put("total", userCounts);
+		jo.put("rows", ja);
+		return jo;
 	}
 	
 	@RequestMapping(value="/addUser.do")
@@ -105,10 +135,11 @@ public class UserController extends BaseController
 //		Map<String, String> allParams = this.getAllParamsStringMap(request);
 		Map<String, Object> allObjParams = this.getAllParamsMap(request);
 		allObjParams.remove("password1");
-		String hireDateStr = (String) allObjParams.get("hiredate");
-		allObjParams.remove("hiredate");
-		Date hireDate = DateUtil.strToDate(hireDateStr);
-		allObjParams.put("hiredate", hireDate);
+		//不需要进行日期转换
+//		String hireDateStr = (String) allObjParams.get("hiredate");
+//		allObjParams.remove("hiredate");
+//		Date hireDate = DateUtil.strToDate(hireDateStr);
+//		allObjParams.put("hiredate", hireDate);
 		//查询登录名是否已经注册
 		//Map中的Key是前端input 的name属性
 		String loginame = (String) allObjParams.get("loginame");

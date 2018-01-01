@@ -101,4 +101,8 @@
     <delete id="deleteShareById" parameterType="Integer">
     	delete from t_share where s_id=#{s_id}
     </delete>
+    
+    <delete id="deleteShareByUserId" parameterType="Integer">
+    	delete from t_share where u_id=#{userId}
+    </delete>
 </mapper>

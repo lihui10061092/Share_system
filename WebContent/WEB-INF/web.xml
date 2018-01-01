@@ -24,7 +24,7 @@
     <filter-class>com.lihui.share.filter.SessionFilter</filter-class>
     <init-param>
         <param-name>logonStrings</param-name><!-- 对登录页面不进行过滤 -->
-        <param-value>/lihui/jsp/userlogin.jsp;login.do;addUser.do</param-value>
+        <param-value>/lihui/jsp/userlogin.jsp;/lihui/jsp/adminlogin.jsp;login.do;/admin/login.do;addUser.do</param-value>
     </init-param>
     <init-param>
         <param-name>includeStrings</param-name><!-- 只对指定过滤参数后缀进行过滤 -->
@@ -43,6 +43,48 @@
     <filter-name>SessionFilter</filter-name>
     <url-pattern>/*</url-pattern>
 </filter-mapping>
+<filter>
+    <filter-name>encoding</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+        <param-name>encoding</param-name><!--用来指定一个具体的字符集-->
+        <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+        <param-name>forceEncoding</param-name><!--true：无论request是否指定了字符集，都是用encoding；false：如果request已指定一个字符集，则不使用encoding-->
+        <param-value>false</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+    <filter-name>encoding</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+<!--
+<filter>
+    <filter-name>AdminSessionFilter</filter-name>
+    <filter-class>com.lihui.share.filter.AdminSessionFilter</filter-class>
+    <init-param>
+        <param-name>logonStrings</param-name>
+        <param-value>/lihui/jsp/userlogin.jsp;/lihui/jsp/adminlogin.jsp;login.do;/admin/login.do;addUser.do</param-value>
+    </init-param>
+    <init-param>
+        <param-name>includeStrings</param-name>
+        <param-value>.do;.jsp</param-value>
+    </init-param>
+    <init-param>
+        <param-name>redirectPath</param-name>
+        <param-value>/lihui/jsp/adminlogin.jsp</param-value>
+    </init-param>
+    <init-param>
+        <param-name>disabletestfilter</param-name>
+        <param-value>N</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+    <filter-name>AdminSessionFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+-->
   <welcome-file-list>
     <welcome-file>/lihui/jsp/userlogin.jsp</welcome-file>
   </welcome-file-list>
